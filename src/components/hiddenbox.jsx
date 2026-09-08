@@ -6,19 +6,41 @@ export default function HiddenBox({ onComplete }) {
   const [pin, setPin] = useState("");
   const [shake, setShake] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [birthdayBubbles, setBirthdayBubbles] = useState([]);
 
   // ============================================================
   // PIN
   // ============================================================
-  //
-  // Change this whenever you want.
-  //
-  // Example:
-  // 18082002
-  //
+
+  const CORRECT_PIN = "091404";
+
+  // ============================================================
+  // BIRTHDAY BUBBLES
   // ============================================================
 
-  const CORRECT_PIN = "18082002";
+  const createBirthdayBubble = () => {
+    const id = `${Date.now()}-${Math.random()}`;
+
+    const bubble = {
+      id,
+      x: 8 + Math.random() * 84,
+      y: 55 + Math.random() * 24,
+      drift: -55 + Math.random() * 110,
+      rotate: -14 + Math.random() * 28,
+      scale: 0.75 + Math.random() * 0.35,
+      emoji: ["🎂", "🎈", "✨", "💖", "🎉", "🌸"][
+        Math.floor(Math.random() * 6)
+      ],
+    };
+
+    setBirthdayBubbles((prev) => [...prev.slice(-9), bubble]);
+
+    setTimeout(() => {
+      setBirthdayBubbles((prev) =>
+        prev.filter((item) => item.id !== id)
+      );
+    }, 1900);
+  };
 
   // ============================================================
   // INTRO → HIDDEN BOX
@@ -44,6 +66,9 @@ export default function HiddenBox({ onComplete }) {
     if (pin.length >= CORRECT_PIN.length) return;
 
     setPin((prev) => prev + number);
+
+    // Birthday bubble appears whenever a number is typed
+    createBirthdayBubble();
   };
 
   // ============================================================
@@ -63,6 +88,11 @@ export default function HiddenBox({ onComplete }) {
   const checkPin = () => {
     if (pin === CORRECT_PIN) {
       setUnlocked(true);
+
+      // Final birthday bubble burst
+      Array.from({ length: 8 }).forEach((_, index) => {
+        setTimeout(createBirthdayBubble, index * 90);
+      });
 
       setTimeout(() => {
         setPhase("opened");
@@ -118,20 +148,29 @@ export default function HiddenBox({ onComplete }) {
   // ============================================================
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden bg-[#020202] text-white">
+    <section className="relative min-h-screen w-full overflow-hidden bg-[#05030a] text-white">
 
       {/* ======================================================
           BACKGROUND
       ====================================================== */}
 
-      <div className="pointer-events-none absolute inset-0 bg-black" />
+      <div className="pointer-events-none absolute inset-0 bg-[#05030a]" />
 
       <div
         className="
           pointer-events-none
           absolute
           inset-0
-          bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.045),transparent_65%)]
+          bg-[radial-gradient(circle_at_50%_35%,rgba(255,105,180,0.13),transparent_28%),radial-gradient(circle_at_20%_80%,rgba(168,85,247,0.10),transparent_30%),radial-gradient(circle_at_85%_20%,rgba(59,130,246,0.10),transparent_28%)]
+        "
+      />
+
+      <div
+        className="
+          pointer-events-none
+          absolute
+          inset-0
+          bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.035),transparent_68%)]
         "
       />
 
@@ -166,6 +205,123 @@ export default function HiddenBox({ onComplete }) {
 
       </div>
 
+      {/* ======================================================
+          BIRTHDAY BUBBLES
+      ====================================================== */}
+
+      <div className="pointer-events-none absolute inset-0 z-40 overflow-hidden">
+
+        <AnimatePresence>
+
+          {birthdayBubbles.map((bubble) => (
+
+            <motion.div
+              key={bubble.id}
+              initial={{
+                opacity: 0,
+                x: `${bubble.x}vw`,
+                y: `${bubble.y}vh`,
+                scale: 0.35,
+                rotate: bubble.rotate,
+              }}
+              animate={{
+                opacity: [0, 1, 1, 0],
+
+                x: `calc(${bubble.x}vw + ${bubble.drift}px)`,
+
+                y: [
+                  `${bubble.y}vh`,
+                  `calc(${bubble.y}vh - 90px)`,
+                  `calc(${bubble.y}vh - 190px)`,
+                ],
+
+                scale: [0.35, bubble.scale, 1.02],
+
+                rotate: [
+                  bubble.rotate,
+                  bubble.rotate + 8,
+                  bubble.rotate - 5,
+                ],
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.5,
+              }}
+              transition={{
+                duration: 1.9,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+              className="
+                absolute
+                -translate-x-1/2
+                -translate-y-1/2
+              "
+            >
+
+              <div
+                className="
+                  relative
+                  flex
+                  items-center
+                  gap-2
+                  rounded-full
+                  border
+                  border-white/25
+                  bg-white/[0.09]
+                  px-4
+                  py-2
+                  shadow-[0_12px_45px_rgba(255,105,180,0.18)]
+                  backdrop-blur-xl
+                "
+              >
+
+                <span className="text-sm">
+                  {bubble.emoji}
+                </span>
+
+                <span
+                  className="
+                    whitespace-nowrap
+                    font-serif
+                    text-sm
+                    font-medium
+                    tracking-wide
+                    text-white
+                    drop-shadow-[0_0_10px_rgba(255,182,193,0.55)]
+                  "
+                >
+                  Happy Birthday
+                </span>
+
+                <span
+                  className="
+                    absolute
+                    -bottom-1
+                    left-5
+                    h-2
+                    w-2
+                    rotate-45
+                    border-b
+                    border-r
+                    border-white/20
+                    bg-white/[0.08]
+                  "
+                />
+
+              </div>
+
+            </motion.div>
+
+          ))}
+
+        </AnimatePresence>
+
+      </div>
+
+      {/* ======================================================
+          MAIN PHASES
+      ====================================================== */}
+
       <AnimatePresence mode="wait">
 
         {/* ====================================================
@@ -173,6 +329,7 @@ export default function HiddenBox({ onComplete }) {
         ==================================================== */}
 
         {phase === "intro" && (
+
           <motion.div
             key="intro"
             initial={{
@@ -308,6 +465,7 @@ export default function HiddenBox({ onComplete }) {
             </div>
 
           </motion.div>
+
         )}
 
         {/* ====================================================
@@ -315,6 +473,7 @@ export default function HiddenBox({ onComplete }) {
         ==================================================== */}
 
         {phase === "box" && (
+
           <motion.div
             key="box"
             initial={{
@@ -448,7 +607,7 @@ export default function HiddenBox({ onComplete }) {
                     absolute
                     inset-[-40px]
                     rounded-full
-                    bg-white/[0.025]
+                    bg-pink-400/[0.06]
                     blur-3xl
                   "
                 />
@@ -485,7 +644,7 @@ export default function HiddenBox({ onComplete }) {
                       h-full
                       w-5
                       -translate-x-1/2
-                      bg-white/[0.045]
+                      bg-pink-300/[0.07]
                     "
                   />
 
@@ -499,7 +658,7 @@ export default function HiddenBox({ onComplete }) {
                       h-5
                       w-full
                       -translate-y-1/2
-                      bg-white/[0.045]
+                      bg-pink-300/[0.07]
                     "
                   />
 
@@ -534,7 +693,7 @@ export default function HiddenBox({ onComplete }) {
                       h-full
                       w-5
                       -translate-x-1/2
-                      bg-white/[0.045]
+                      bg-pink-300/[0.07]
                     "
                   />
 
@@ -570,7 +729,7 @@ export default function HiddenBox({ onComplete }) {
                       justify-center
                       rounded-lg
                       border
-                      border-white/20
+                      border-pink-200/20
                       bg-[#080808]
                       pb-2
                       shadow-[0_8px_25px_rgba(0,0,0,0.8)]
@@ -588,11 +747,11 @@ export default function HiddenBox({ onComplete }) {
                         rounded-t-full
                         border-2
                         border-b-0
-                        border-white/25
+                        border-pink-200/25
                       "
                     />
 
-                    <div className="h-2 w-2 rounded-full bg-white/40" />
+                    <div className="h-2 w-2 rounded-full bg-pink-200/50" />
 
                   </div>
 
@@ -626,6 +785,35 @@ export default function HiddenBox({ onComplete }) {
                 Enter the secret code
               </motion.p>
 
+              <motion.div
+                initial={{
+                  opacity: 0,
+                  y: 6,
+                }}
+                animate={{
+                  opacity: 1,
+                  y: 0,
+                }}
+                transition={{
+                  delay: 2.15,
+                  duration: 0.8,
+                }}
+                className="
+                  mt-2
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
+                  text-[10px]
+                  tracking-[0.22em]
+                  text-pink-200/45
+                "
+              >
+                <span>✦</span>
+                <span>A birthday secret is hiding here</span>
+                <span>✦</span>
+              </motion.div>
+
               {/* ==================================================
                   PIN DOTS
               ================================================== */}
@@ -649,11 +837,16 @@ export default function HiddenBox({ onComplete }) {
                 {Array.from({
                   length: CORRECT_PIN.length,
                 }).map((_, index) => (
+
                   <motion.div
                     key={index}
                     animate={{
                       scale: index < pin.length ? 1 : 0.8,
                       opacity: index < pin.length ? 1 : 0.25,
+                      boxShadow:
+                        index < pin.length
+                          ? "0 0 12px rgba(244,114,182,0.55)"
+                          : "0 0 0 rgba(0,0,0,0)",
                     }}
                     className="
                       h-2.5
@@ -661,8 +854,10 @@ export default function HiddenBox({ onComplete }) {
                       rounded-full
                       border
                       border-white/30
+                      bg-pink-200/60
                     "
                   />
+
                 ))}
 
               </motion.div>
@@ -696,7 +891,10 @@ export default function HiddenBox({ onComplete }) {
 
                 {keypad.map((key) => {
 
+                  {/* DELETE */}
+
                   if (key === "delete") {
+
                     return (
                       <button
                         key={key}
@@ -725,7 +923,10 @@ export default function HiddenBox({ onComplete }) {
                     );
                   }
 
+                  {/* ENTER */}
+
                   if (key === "enter") {
+
                     return (
                       <button
                         key={key}
@@ -738,14 +939,16 @@ export default function HiddenBox({ onComplete }) {
                           justify-center
                           rounded-xl
                           border
-                          border-white/15
-                          bg-white/[0.07]
+                          border-pink-300/20
+                          bg-pink-400/[0.08]
                           text-[9px]
                           uppercase
                           tracking-[0.3em]
-                          text-white/65
+                          text-pink-100/70
+                          shadow-[0_0_25px_rgba(236,72,153,0.08)]
                           transition
-                          hover:bg-white/[0.12]
+                          hover:bg-pink-400/[0.14]
+                          hover:shadow-[0_0_30px_rgba(236,72,153,0.16)]
                           active:scale-95
                         "
                       >
@@ -753,6 +956,8 @@ export default function HiddenBox({ onComplete }) {
                       </button>
                     );
                   }
+
+                  {/* NUMBER */}
 
                   return (
                     <button
@@ -766,29 +971,39 @@ export default function HiddenBox({ onComplete }) {
                         justify-center
                         rounded-xl
                         border
-                        border-white/[0.07]
-                        bg-white/[0.025]
+                        border-white/[0.10]
+                        bg-gradient-to-br
+                        from-white/[0.08]
+                        to-white/[0.025]
                         font-serif
                         text-lg
-                        text-white/65
+                        text-white/75
+                        shadow-[0_8px_25px_rgba(0,0,0,0.28)]
+                        backdrop-blur-md
                         transition
-                        hover:border-white/15
-                        hover:bg-white/[0.07]
+                        hover:border-pink-300/30
+                        hover:bg-pink-400/[0.10]
                         hover:text-white
-                        active:scale-95
+                        hover:shadow-[0_0_24px_rgba(236,72,153,0.14)]
+                        active:scale-90
                       "
                     >
                       {key}
                     </button>
                   );
+
                 })}
 
               </motion.div>
 
-              {/* Wrong PIN */}
+              {/* ==================================================
+                  WRONG PIN
+              ================================================== */}
 
               <AnimatePresence>
+
                 {shake && (
+
                   <motion.p
                     initial={{
                       opacity: 0,
@@ -806,17 +1021,20 @@ export default function HiddenBox({ onComplete }) {
                       font-serif
                       text-xs
                       italic
-                      text-white/35
+                      text-pink-200/50
                     "
                   >
-                    Hmm... that's not it. Try again. ❤️
+                    Almost... the birthday magic is still locked. 💖
                   </motion.p>
+
                 )}
+
               </AnimatePresence>
 
             </div>
 
           </motion.div>
+
         )}
 
         {/* ====================================================
@@ -824,6 +1042,7 @@ export default function HiddenBox({ onComplete }) {
         ==================================================== */}
 
         {phase === "opened" && (
+
           <motion.div
             key="opened"
             initial={{
@@ -871,7 +1090,7 @@ export default function HiddenBox({ onComplete }) {
                   h-64
                   w-64
                   rounded-full
-                  bg-white/[0.08]
+                  bg-pink-400/[0.10]
                   blur-3xl
                 "
               />
@@ -920,7 +1139,7 @@ export default function HiddenBox({ onComplete }) {
                     w-40
                     -translate-x-1/2
                     rounded-full
-                    bg-white/[0.08]
+                    bg-pink-300/[0.10]
                     blur-3xl
                   "
                 />
@@ -937,7 +1156,7 @@ export default function HiddenBox({ onComplete }) {
                     -translate-x-1/2
                     rounded-b-2xl
                     border
-                    border-white/15
+                    border-pink-200/15
                     bg-white/[0.06]
                   "
                 />
@@ -971,7 +1190,7 @@ export default function HiddenBox({ onComplete }) {
                     -translate-x-1/2
                     rounded-xl
                     border
-                    border-white/15
+                    border-pink-200/15
                     bg-white/[0.08]
                   "
                 />
@@ -984,6 +1203,7 @@ export default function HiddenBox({ onComplete }) {
                   { x: -55, y: 5 },
                   { x: 65, y: 10 },
                 ].map((star, index) => (
+
                   <motion.span
                     key={index}
                     initial={{
@@ -1005,11 +1225,12 @@ export default function HiddenBox({ onComplete }) {
                       left-1/2
                       top-1/2
                       text-sm
-                      text-white/70
+                      text-pink-200/80
                     "
                   >
                     ✦
                   </motion.span>
+
                 ))}
 
               </motion.div>
@@ -1066,9 +1287,11 @@ export default function HiddenBox({ onComplete }) {
             </div>
 
           </motion.div>
+
         )}
 
       </AnimatePresence>
+
     </section>
   );
 }

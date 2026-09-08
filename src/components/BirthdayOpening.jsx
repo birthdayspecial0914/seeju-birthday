@@ -1,17 +1,42 @@
 import { motion } from "framer-motion";
 import seeju from "../assets/seeju1.jpg"
-
+import seeju1 from "../assets/seeju028.png"
 export default function BirthdayOpening({ onComplete }) {
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#050505] text-white">
 
-      {/* ============================================
-    CINEMATIC BLURRED BACKGROUND
+{/* ============================================
+    CINEMATIC BACKGROUND
 ============================================ */}
 
-<div className="pointer-events-none absolute inset-0">
+<div className="pointer-events-none absolute inset-0 overflow-hidden bg-[#050505]">
 
-  {/* Blurred image */}
+  {/* ==================================================
+      MAIN IMAGE — FULLY VISIBLE
+      ================================================== */}
+
+  <img
+    src={seeju}
+    alt=""
+    className="
+      absolute
+      inset-0
+      h-full
+      w-full
+      object-contain
+      object-center
+      opacity-60
+      blur-[3px]
+      scale-105
+      sm:opacity-65
+      md:opacity-70
+    "
+  />
+
+  {/* ==================================================
+      BLURRED FILL FOR DESKTOP SIDES
+      ================================================== */}
+
   <div
     className="
       absolute
@@ -20,30 +45,58 @@ export default function BirthdayOpening({ onComplete }) {
       bg-center
       bg-no-repeat
       scale-110
-      blur-[18px]
+      blur-[30px]
+      opacity-25
     "
-  style={{
-  backgroundImage: `url(${seeju})`,
-}}
+    style={{
+      backgroundImage: `url(${seeju})`,
+    }}
   />
 
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/80" />
+  {/* ==================================================
+      LIGHT DARK OVERLAY
+      ================================================== */}
 
-  {/* Cinematic gradient */}
+  <div className="absolute inset-0 bg-black/20" />
+
+  {/* ==================================================
+      SOFT CENTER GRADIENT
+      ================================================== */}
+
   <div
     className="
       absolute
       inset-0
       bg-[radial-gradient(
         circle_at_center,
-        rgba(0,0,0,0.15),
-        rgba(0,0,0,0.92)
+        rgba(0,0,0,0),
+        rgba(0,0,0,0.28)
       )]
     "
   />
 
-  {/* Soft pink atmosphere */}
+  {/* ==================================================
+      VERY SOFT TOP/BOTTOM SHADOW
+      ================================================== */}
+
+  <div
+    className="
+      absolute
+      inset-0
+      bg-[linear-gradient(
+        to_bottom,
+        rgba(0,0,0,0.18),
+        transparent_22%,
+        transparent_78%,
+        rgba(0,0,0,0.30)
+      )]
+    "
+  />
+
+  {/* ==================================================
+      SOFT PINK ATMOSPHERE
+      ================================================== */}
+
   <div
     className="
       absolute
@@ -52,12 +105,15 @@ export default function BirthdayOpening({ onComplete }) {
       h-[250px]
       w-[250px]
       rounded-full
-      bg-pink-500/[0.04]
+      bg-pink-500/[0.05]
       blur-[120px]
     "
   />
 
-  {/* Soft amber atmosphere */}
+  {/* ==================================================
+      SOFT AMBER ATMOSPHERE
+      ================================================== */}
+
   <div
     className="
       absolute
@@ -68,12 +124,15 @@ export default function BirthdayOpening({ onComplete }) {
       -translate-x-1/2
       -translate-y-1/2
       rounded-full
-      bg-amber-200/[0.025]
+      bg-amber-200/[0.03]
       blur-[150px]
     "
   />
 
-  {/* Purple atmosphere */}
+  {/* ==================================================
+      PURPLE ATMOSPHERE
+      ================================================== */}
+
   <div
     className="
       absolute
@@ -82,13 +141,12 @@ export default function BirthdayOpening({ onComplete }) {
       h-[300px]
       w-[300px]
       rounded-full
-      bg-purple-500/[0.03]
+      bg-purple-500/[0.04]
       blur-[130px]
     "
   />
 
 </div>
-
       {/* ============================================
           STARS
       ============================================ */}
@@ -272,7 +330,7 @@ export default function BirthdayOpening({ onComplete }) {
                   lg:text-[160px]
                 "
               >
-                18
+                14
               </div>
 
 
@@ -288,7 +346,7 @@ export default function BirthdayOpening({ onComplete }) {
                   sm:text-base
                 "
               >
-                August
+                September
               </div>
 
 
@@ -305,7 +363,7 @@ export default function BirthdayOpening({ onComplete }) {
                   sm:text-5xl
                 "
               >
-                2002
+                2004
               </div>
 
             </motion.div>
@@ -414,7 +472,7 @@ export default function BirthdayOpening({ onComplete }) {
               >
 
                 <img
-                  src="/seeju1.png"
+                  src={seeju1}
                   alt="Seeju"
                   className="
                     h-full

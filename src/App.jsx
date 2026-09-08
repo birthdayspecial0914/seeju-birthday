@@ -1,40 +1,66 @@
 import { useEffect, useRef, useState } from "react";
 
+import Countdown from "./components/Countdown";
 import BirthdayCalendar from "./components/BirthdayCalendar";
 import BirthdayOpening from "./components/BirthdayOpening";
 import CandleScene from "./components/CandleScene";
 import LifeJourney from "./components/LifeJourney";
 import HiddenBox from "./components/HiddenBox";
 import Elephant from "./components/Elephant";
+import FinalSurprise from "./components/FinalSurprise";
 
 function App() {
   /*
   ============================================================
-  PROJECT FLOW
+  ❤️ SEEJU BIRTHDAY JOURNEY
+  ============================================================
 
-  CALENDAR
+  COUNTDOWN
+      ↓
+  13 SEPTEMBER 11:59 PM
+      ↓
+  14 SEPTEMBER 12:00 AM
+      ↓
+  🎆 FIREWORKS
+      ↓
+  ❤️ HAPPY BIRTHDAY SEEEJUUUUUU
+      ↓
+  📅 BIRTHDAY CALENDAR
       ↓
   14 SEPTEMBER ❤️
       ↓
-  BIRTHDAY OPENING
+  🎬 BIRTHDAY OPENING
       ↓
-  CANDLE + MICROPHONE 🎂
+  🎂 CANDLE + MICROPHONE
       ↓
-  LIFE JOURNEY 📸
+  📸 LIFE JOURNEY
       ↓
-  MUSIC STOPS HERE 🎵
+  🎵 MUSIC STOPS
       ↓
-  HIDDEN BOX 🎁
+  🎁 HIDDEN BOX
       ↓
-  ELEPHANT 🐘
+  🐘 ELEPHANT
+      ↓
+  🎬 FINAL SURPRISE
+      ↓
+  ❤️ HEART-TOUCHING MESSAGE
+      ↓
+  THE END
+      ↓
+  DIRECTED BY YUMI
+
   ============================================================
   */
 
-  const [screen, setScreen] = useState("calendar");
+  // ==========================================================
+  // SCREEN CONTROL
+  // ==========================================================
 
-  // ============================================================
+  const [screen, setScreen] = useState("countdown");
+
+  // ==========================================================
   // GLOBAL AUDIO
-  // ============================================================
+  // ==========================================================
 
   const audioRef = useRef(null);
 
@@ -42,37 +68,31 @@ function App() {
 
   const fadeIntervalRef = useRef(null);
 
-  /*
-  ============================================================
-  MUSIC PLAYLIST
-
-  Put these files inside /public
-
-  public/
-  ├── humdard.mp3
-  ├── song2.mp3
-  ├── song3.mp3
-  ├── song4.mp3
-  └── song5.mp3
-
-  Songs play one after another.
-  They DO NOT repeat.
-  ============================================================
-  */
+  // ==========================================================
+  // MUSIC PLAYLIST
+  //
+  // Put these files inside:
+  //
+  // public/
+  //
+  // ikkudi.mp3
+  // song2.mp3
+  // song3.mp3
+  // song4.mp3
+  // song5.mp3
+  // ==========================================================
 
   const songs = [
-    "/humdard.mp3",
-    "/song2.mp3",
-    "/song3.mp3",
-    "/song4.mp3",
-    "/song5.mp3",
+    `${import.meta.env.BASE_URL}humdard.mp3`,
+    `${import.meta.env.BASE_URL}song2.mp3`,
+    `${import.meta.env.BASE_URL}song3.mp3`,
+    `${import.meta.env.BASE_URL}song4.mp3`,
+    `${import.meta.env.BASE_URL}song5.mp3`,
   ];
 
-  /*
-  ============================================================
-  PLAY SONG
-  ============================================================
-  */
+  // ==========================================================
+  // PLAY SONG
+  // ==========================================================
 
   const playSong = async (index) => {
     const audio = audioRef.current;
@@ -83,11 +103,19 @@ function App() {
       return;
     }
 
-    // Stop previous fade
+    // --------------------------------------------------------
+    // Clear previous fade
+    // --------------------------------------------------------
+
     if (fadeIntervalRef.current) {
       clearInterval(fadeIntervalRef.current);
+
       fadeIntervalRef.current = null;
     }
+
+    // --------------------------------------------------------
+    // Set current song
+    // --------------------------------------------------------
 
     currentSongRef.current = index;
 
@@ -98,12 +126,16 @@ function App() {
     // Start quietly
     audio.volume = 0;
 
+    // --------------------------------------------------------
+    // Start playback
+    // --------------------------------------------------------
+
     try {
       await audio.play();
 
-      // ========================================================
-      // FADE IN
-      // ========================================================
+      // ------------------------------------------------------
+      // Fade music in
+      // ------------------------------------------------------
 
       let volume = 0;
 
@@ -113,7 +145,10 @@ function App() {
         if (volume >= 0.65) {
           volume = 0.65;
 
-          clearInterval(fadeIntervalRef.current);
+          clearInterval(
+            fadeIntervalRef.current
+          );
+
           fadeIntervalRef.current = null;
         }
 
@@ -121,68 +156,81 @@ function App() {
       }, 80);
 
     } catch (error) {
-      console.log("Music could not start:", error);
+      console.log(
+        "Music could not start:",
+        error
+      );
     }
   };
 
-  /*
-  ============================================================
-  NEXT SONG
-
-  Song 1 → Song 2 → Song 3 → etc.
-
-  No song repeats.
-  ============================================================
-  */
+  // ==========================================================
+  // NEXT SONG
+  // ==========================================================
 
   const handleSongEnded = () => {
-    const nextSong = currentSongRef.current + 1;
+    const nextSong =
+      currentSongRef.current + 1;
 
     if (nextSong < songs.length) {
       playSong(nextSong);
     } else {
-      console.log("Playlist finished.");
+      console.log(
+        "🎵 Playlist finished."
+      );
     }
   };
 
-  /*
-  ============================================================
-  START BIRTHDAY MUSIC
-  ============================================================
-  */
+  // ==========================================================
+  // START BIRTHDAY MUSIC
+  // ==========================================================
 
   const startBirthdayMusic = async () => {
     const audio = audioRef.current;
 
     if (!audio) return;
 
-    // Don't restart existing music
-    if (!audio.paused) return;
+    // Don't restart if music is already playing
+    if (!audio.paused) {
+      return;
+    }
 
-    await playSong(currentSongRef.current);
+    await playSong(
+      currentSongRef.current
+    );
   };
 
-  /*
-  ============================================================
-  STOP BIRTHDAY MUSIC
-  ============================================================
-
-  THIS IS CALLED WHEN LIFE JOURNEY FINISHES.
-
-  Music stops completely before HiddenBox begins.
-  ============================================================
-  */
+  // ==========================================================
+  // STOP BIRTHDAY MUSIC
+  //
+  // Music stops after LifeJourney.
+  //
+  // NO MUSIC DURING:
+  //
+  // 🎁 HiddenBox
+  // 🐘 Elephant
+  // 🎬 FinalSurprise
+  // ==========================================================
 
   const stopBirthdayMusic = () => {
     const audio = audioRef.current;
 
     if (!audio) return;
 
+    // --------------------------------------------------------
     // Stop fade
+    // --------------------------------------------------------
+
     if (fadeIntervalRef.current) {
-      clearInterval(fadeIntervalRef.current);
+      clearInterval(
+        fadeIntervalRef.current
+      );
+
       fadeIntervalRef.current = null;
     }
+
+    // --------------------------------------------------------
+    // Stop audio
+    // --------------------------------------------------------
 
     audio.pause();
 
@@ -191,51 +239,90 @@ function App() {
     audio.volume = 0.65;
   };
 
-  /*
-  ============================================================
-  14 SEPTEMBER CLICK
-  ============================================================
-  */
+  // ==========================================================
+  // CALENDAR → BIRTHDAY OPENING
+  // ==========================================================
 
   const handleBirthdayClick = async () => {
+    // Start music when Seeju clicks her birthday
     await startBirthdayMusic();
 
+    // Move to Birthday Opening
     setScreen("opening");
   };
 
-  /*
-  ============================================================
-  CLEANUP
-  ============================================================
-  */
+  // ==========================================================
+  // COUNTDOWN → CALENDAR
+  //
+  // Countdown handles:
+  //
+  // 11:59:01
+  // 11:59:02
+  // ...
+  // 11:59:59
+  // 12:00:00
+  //
+  // Then:
+  //
+  // 🎆 FIREWORKS
+  // ❤️ HAPPY BIRTHDAY SEEEJUUUUUU
+  //
+  // Countdown calls onComplete()
+  //
+  // App automatically opens Calendar.
+  // ==========================================================
+
+  const handleCountdownComplete = () => {
+    console.log(
+      "🎆 Midnight reached!"
+    );
+
+    console.log(
+      "📅 Opening Birthday Calendar..."
+    );
+
+    // Automatically open calendar
+    setScreen("calendar");
+  };
+
+  // ==========================================================
+  // CLEANUP
+  // ==========================================================
 
   useEffect(() => {
     return () => {
+      // ------------------------------------------------------
+      // Clear fade interval
+      // ------------------------------------------------------
+
       if (fadeIntervalRef.current) {
-        clearInterval(fadeIntervalRef.current);
+        clearInterval(
+          fadeIntervalRef.current
+        );
       }
+
+      // ------------------------------------------------------
+      // Stop audio
+      // ------------------------------------------------------
 
       if (audioRef.current) {
         audioRef.current.pause();
+
         audioRef.current.currentTime = 0;
       }
     };
   }, []);
 
-  /*
-  ============================================================
-  RENDER
-  ============================================================
-  */
+  // ==========================================================
+  // RENDER
+  // ==========================================================
 
   return (
     <div className="min-h-screen w-full bg-black">
 
-      {/* =====================================================
-          GLOBAL MUSIC
-
-          This stays mounted during the whole project.
-      ===================================================== */}
+      {/* ====================================================
+          GLOBAL AUDIO
+      ==================================================== */}
 
       <audio
         ref={audioRef}
@@ -243,81 +330,135 @@ function App() {
         onEnded={handleSongEnded}
       />
 
-      {/* =====================================================
-          PART 0 — CALENDAR
-      ===================================================== */}
+      {/* ====================================================
+          PART 0
+          
+          MIDNIGHT COUNTDOWN
+      ==================================================== */}
+
+      {screen === "countdown" && (
+        <Countdown
+          onComplete={
+            handleCountdownComplete
+          }
+        />
+      )}
+
+      {/* ====================================================
+          PART 1
+          
+          BIRTHDAY CALENDAR
+      ==================================================== */}
 
       {screen === "calendar" && (
         <BirthdayCalendar
-          onBirthdayClick={handleBirthdayClick}
+          onBirthdayClick={
+            handleBirthdayClick
+          }
         />
       )}
 
-      {/* =====================================================
-          PART 1 — BIRTHDAY OPENING
-      ===================================================== */}
+      {/* ====================================================
+          PART 2
+          
+          BIRTHDAY OPENING
+      ==================================================== */}
 
       {screen === "opening" && (
         <BirthdayOpening
-          onComplete={() => setScreen("candle")}
+          onComplete={() => {
+            setScreen("candle");
+          }}
         />
       )}
 
-      {/* =====================================================
-          PART 2 — CANDLE + MICROPHONE
-      ===================================================== */}
+      {/* ====================================================
+          PART 3
+          
+          CANDLE + MICROPHONE
+      ==================================================== */}
 
       {screen === "candle" && (
         <CandleScene
-          onComplete={() => setScreen("life")}
+          onComplete={() => {
+            setScreen("life");
+          }}
         />
       )}
 
-      {/* =====================================================
-          PART 3 — LIFE JOURNEY
-
-          IMPORTANT:
-
-          When LifeJourney finishes:
-
-          1. Music stops
-          2. HiddenBox starts
-
-          The music does NOT continue into HiddenBox.
-      ===================================================== */}
+      {/* ====================================================
+          PART 4
+          
+          LIFE JOURNEY
+          
+          🎵 MUSIC PLAYS
+      ==================================================== */}
 
       {screen === "life" && (
         <LifeJourney
           onComplete={() => {
+
+            // Stop birthday music completely
             stopBirthdayMusic();
 
+            // Continue to Hidden Box
             setScreen("hiddenbox");
           }}
         />
       )}
 
-      {/* =====================================================
-          PART 4 — HIDDEN BOX
-
-          NO MUSIC
-      ===================================================== */}
+      {/* ====================================================
+          PART 5
+          
+          HIDDEN BOX
+          
+          🔇 NO MUSIC
+      ==================================================== */}
 
       {screen === "hiddenbox" && (
         <HiddenBox
-          onComplete={() => setScreen("elephant")}
+          onComplete={() => {
+            setScreen("elephant");
+          }}
         />
       )}
 
-      {/* =====================================================
-          PART 5 — ELEPHANT
-
-          NO MUSIC
-      ===================================================== */}
+      {/* ====================================================
+          PART 6
+          
+          ELEPHANT
+          
+          🔇 NO MUSIC
+      ==================================================== */}
 
       {screen === "elephant" && (
         <Elephant
           onComplete={() => {
-            console.log("Birthday journey completed ❤️");
+
+            // Elephant finished
+            // Go directly to Final Surprise
+
+            setScreen("final");
+          }}
+        />
+      )}
+
+      {/* ====================================================
+          PART 7
+          
+          FINAL SURPRISE
+          
+          🔇 NO MUSIC
+      ==================================================== */}
+
+      {screen === "final" && (
+        <FinalSurprise
+          onComplete={() => {
+
+            console.log(
+              "❤️ Birthday journey completed ❤️"
+            );
+
           }}
         />
       )}

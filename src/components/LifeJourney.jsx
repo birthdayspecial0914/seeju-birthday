@@ -4,28 +4,23 @@ import { AnimatePresence, motion } from "framer-motion";
 // ============================================================
 // IMAGES
 // ============================================================
-// Currently using seeju1 as placeholder.
-// Later simply change these imports to:
-// ../assets/seeju2.jpg
-// ../assets/seeju3.jpg
-// etc.
-// ============================================================
 
-import seeju1 from "../assets/seeju1.jpg";
-import seeju2 from "../assets/seeju1.jpg";
-import seeju3 from "../assets/seeju1.jpg";
-import seeju4 from "../assets/seeju1.jpg";
-import seeju5 from "../assets/seeju1.jpg";
-import seeju6 from "../assets/seeju1.jpg";
-import seeju7 from "../assets/seeju1.jpg";
-import seeju8 from "../assets/seeju1.jpg";
-import seeju9 from "../assets/seeju1.jpg";
-import seeju10 from "../assets/seeju1.jpg";
-import seeju11 from "../assets/seeju1.jpg";
-import seeju12 from "../assets/seeju1.jpg";
-import seeju13 from "../assets/seeju1.jpg";
-import seeju14 from "../assets/seeju1.jpg";
-import seeju15 from "../assets/seeju1.jpg";
+import seeju1 from "../assets/seeju030.jpeg";
+import seeju2 from "../assets/seeju044.jpeg";
+import seeju3 from "../assets/seeju032.jpeg";
+import seeju4 from "../assets/seeju033.jpeg";
+import seeju5 from "../assets/seeju034.jpeg";
+import seeju6 from "../assets/seeju035.jpeg";
+import seeju7 from "../assets/seeju036.jpeg";
+import seeju8 from "../assets/seeju037.jpeg";
+import seeju9 from "../assets/seeju038.jpeg";
+import seeju10 from "../assets/seeju031.jpeg";
+import seeju11 from "../assets/seeju039.jpeg";
+import seeju12 from "../assets/seeju041.jpeg";
+import seeju13 from "../assets/seeju046.jpeg"; 
+import seeju14 from "../assets/seeju040.jpeg";
+import seeju16 from "../assets/seeju047.png";
+import seeju15 from "../assets/seeju043.jpeg";
 
 export default function LifeJourney({ onComplete }) {
   const [phase, setPhase] = useState("opening");
@@ -50,7 +45,7 @@ export default function LifeJourney({ onComplete }) {
     seeju12,
     seeju13,
     seeju14,
-    seeju15,
+    seeju16,
   ];
 
   // ============================================================
@@ -62,72 +57,58 @@ export default function LifeJourney({ onComplete }) {
       text: "Every beautiful story has a beginning...",
       position: "center",
     },
-
     {
       text: "Once upon a time, there was a little girl with a beautiful smile.",
       position: "bottom-left",
     },
-
     {
       text: "Little moments slowly became beautiful memories.",
       position: "bottom-right",
     },
-
     {
       text: "She laughed. She learned. She grew.",
       position: "center",
     },
-
     {
       text: "And somewhere along the way, she became someone truly special.",
       position: "top-left",
     },
-
     {
       text: "Some memories become a part of us forever.",
       position: "bottom-left",
     },
-
     {
       text: "There were smiles that made ordinary days unforgettable.",
       position: "bottom-right",
     },
-
     {
       text: "She kept growing, dreaming, and becoming herself.",
       position: "center",
     },
-
     {
-      text: "Every year added another little piece to her story.",
+      text: "The years changed, but their love remained the same.",
       position: "top-right",
     },
-
     {
       text: "New places. New people. New memories.",
       position: "bottom-left",
     },
-
     {
       text: "And every version of her was beautiful in its own way.",
       position: "center",
     },
-
     {
-      text: "The little girl from yesterday became the woman of today.",
+      text: "She carried a little more grace with every passing year. 😉✨",
       position: "bottom-right",
     },
-
     {
-      text: "A thousand memories live behind that smile.",
+      text: "She was once a little girl with a world ahead of her; today, she carries years of memories in that same beautiful smile.” ❤️🌟🥀",
       position: "top-left",
     },
-
     {
-      text: "And somehow, the best chapters are still unwritten.",
+      text: "“That smile carries a thousand memories and a thousand little moments.” 🥹",
       position: "center",
     },
-
     {
       text: "Look how far you've come.",
       position: "center",
@@ -135,16 +116,15 @@ export default function LifeJourney({ onComplete }) {
   ];
 
   // ============================================================
-  // DIFFERENT CINEMATIC ENTRANCES
+  // CINEMATIC ENTRANCES
   // ============================================================
 
   const animations = [
-    // 1 — Right
     {
       initial: {
         opacity: 0,
         x: "100%",
-        scale: 1.08,
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -154,16 +134,15 @@ export default function LifeJourney({ onComplete }) {
       exit: {
         opacity: 0,
         x: "-18%",
-        scale: 1.04,
+        scale: 1,
       },
     },
 
-    // 2 — Left
     {
       initial: {
         opacity: 0,
         x: "-100%",
-        scale: 1.08,
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -173,15 +152,14 @@ export default function LifeJourney({ onComplete }) {
       exit: {
         opacity: 0,
         x: "18%",
-        scale: 1.04,
+        scale: 1,
       },
     },
 
-    // 3 — Zoom
     {
       initial: {
         opacity: 0,
-        scale: 1.35,
+        scale: 1.02,
       },
       animate: {
         opacity: 1,
@@ -189,16 +167,15 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.15,
+        scale: 1.01,
       },
     },
 
-    // 4 — Bottom
     {
       initial: {
         opacity: 0,
         y: "100%",
-        scale: 1.08,
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -208,16 +185,15 @@ export default function LifeJourney({ onComplete }) {
       exit: {
         opacity: 0,
         y: "-15%",
-        scale: 1.04,
+        scale: 1,
       },
     },
 
-    // 5 — Blur
     {
       initial: {
         opacity: 0,
-        scale: 1.15,
-        filter: "blur(18px)",
+        scale: 1.01,
+        filter: "blur(12px)",
       },
       animate: {
         opacity: 1,
@@ -226,17 +202,16 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.08,
-        filter: "blur(12px)",
+        scale: 1,
+        filter: "blur(8px)",
       },
     },
 
-    // 6 — Rotate
     {
       initial: {
         opacity: 0,
-        scale: 1.18,
-        rotate: 4,
+        scale: 1.01,
+        rotate: 1,
       },
       animate: {
         opacity: 1,
@@ -245,18 +220,17 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.08,
-        rotate: -3,
+        scale: 1,
+        rotate: -1,
       },
     },
 
-    // 7 — Diagonal
     {
       initial: {
         opacity: 0,
-        x: "70%",
-        y: "30%",
-        scale: 1.12,
+        x: "50%",
+        y: "20%",
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -268,16 +242,14 @@ export default function LifeJourney({ onComplete }) {
         opacity: 0,
         x: "-15%",
         y: "-10%",
-        scale: 1.08,
       },
     },
 
-    // 8 — Top
     {
       initial: {
         opacity: 0,
         y: "-100%",
-        scale: 1.08,
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -287,16 +259,15 @@ export default function LifeJourney({ onComplete }) {
       exit: {
         opacity: 0,
         y: "20%",
-        scale: 1.05,
+        scale: 1,
       },
     },
 
-    // 9 — Soft reveal
     {
       initial: {
         opacity: 0,
-        scale: 0.88,
-        filter: "blur(10px)",
+        scale: 0.98,
+        filter: "blur(8px)",
       },
       animate: {
         opacity: 1,
@@ -305,16 +276,15 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.08,
+        scale: 1,
       },
     },
 
-    // 10 — Horizontal cinematic
     {
       initial: {
         opacity: 0,
-        x: "80%",
-        scale: 1.12,
+        x: "70%",
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -327,11 +297,10 @@ export default function LifeJourney({ onComplete }) {
       },
     },
 
-    // 11 — Slow zoom
     {
       initial: {
         opacity: 0,
-        scale: 1.25,
+        scale: 1.02,
       },
       animate: {
         opacity: 1,
@@ -339,17 +308,16 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.12,
+        scale: 1.01,
       },
     },
 
-    // 12 — Left diagonal
     {
       initial: {
         opacity: 0,
-        x: "-70%",
-        y: "25%",
-        scale: 1.1,
+        x: "-60%",
+        y: "20%",
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -364,12 +332,11 @@ export default function LifeJourney({ onComplete }) {
       },
     },
 
-    // 13 — Bottom zoom
     {
       initial: {
         opacity: 0,
-        y: "70%",
-        scale: 1.2,
+        y: "60%",
+        scale: 1,
       },
       animate: {
         opacity: 1,
@@ -382,12 +349,11 @@ export default function LifeJourney({ onComplete }) {
       },
     },
 
-    // 14 — Dreamy blur
     {
       initial: {
         opacity: 0,
-        scale: 1.22,
-        filter: "blur(20px)",
+        scale: 1.02,
+        filter: "blur(14px)",
       },
       animate: {
         opacity: 1,
@@ -396,17 +362,16 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.06,
-        filter: "blur(8px)",
+        scale: 1,
+        filter: "blur(7px)",
       },
     },
 
-    // 15 — FINAL
     {
       initial: {
         opacity: 0,
-        scale: 1.15,
-        filter: "blur(12px)",
+        scale: 1.01,
+        filter: "blur(10px)",
       },
       animate: {
         opacity: 1,
@@ -415,13 +380,13 @@ export default function LifeJourney({ onComplete }) {
       },
       exit: {
         opacity: 0,
-        scale: 1.05,
+        scale: 1,
       },
     },
   ];
 
   // ============================================================
-  // LIFE JOURNEY STARTS
+  // LIFE JOURNEY START
   // ============================================================
 
   useEffect(() => {
@@ -490,7 +455,8 @@ export default function LifeJourney({ onComplete }) {
   // CURRENT ANIMATION
   // ============================================================
 
-  const currentAnimation = animations[currentImage];
+  const currentAnimation =
+    animations[currentImage] || animations[0];
 
   // ============================================================
   // QUOTE POSITION
@@ -521,8 +487,8 @@ export default function LifeJourney({ onComplete }) {
     <section className="relative h-screen w-full overflow-hidden bg-black text-white">
 
       {/* ======================================================
-          BACKGROUND
-      ====================================================== */}
+          BASE BACKGROUND
+          ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 z-0 bg-black" />
 
@@ -538,7 +504,7 @@ export default function LifeJourney({ onComplete }) {
 
       {/* ======================================================
           STARS
-      ====================================================== */}
+          ====================================================== */}
 
       <div className="pointer-events-none absolute inset-0 z-10">
 
@@ -571,7 +537,7 @@ export default function LifeJourney({ onComplete }) {
 
         {/* ====================================================
             OPENING
-        ==================================================== */}
+            ==================================================== */}
 
         {phase === "opening" && (
           <motion.div
@@ -682,12 +648,18 @@ export default function LifeJourney({ onComplete }) {
 
         {/* ====================================================
             PHOTO MOVIE
-        ==================================================== */}
+            ==================================================== */}
 
         {phase === "photos" && (
           <motion.div
             key={`photo-${currentImage}`}
-            className="absolute inset-0 z-20 overflow-hidden"
+            className="
+              absolute
+              inset-0
+              z-20
+              overflow-hidden
+              bg-black
+            "
             initial={currentAnimation.initial}
             animate={currentAnimation.animate}
             exit={currentAnimation.exit}
@@ -698,73 +670,146 @@ export default function LifeJourney({ onComplete }) {
           >
 
             {/* ==================================================
-                PHOTO
-            ================================================== */}
+                BLURRED FULL-SCREEN BACKGROUND
+                ================================================== */}
 
             <motion.img
               src={photos[currentImage]}
-              alt={`Seeju memory ${currentImage + 1}`}
+              alt=""
               className="
+                pointer-events-none
                 absolute
                 inset-0
                 h-full
                 w-full
                 object-cover
+                scale-110
+                blur-[8px]
+                opacity-100
               "
               initial={{
-                scale: 1,
+                opacity: 0,
               }}
               animate={{
-                scale: 1.09,
+                opacity: 0.5,
               }}
               transition={{
-                duration: 6,
-                ease: "linear",
+                duration: 1.5,
               }}
             />
 
-            {/* ==================================================
-                CINEMATIC DARK OVERLAY
-            ================================================== */}
+            {/* Soft background darkening */}
 
             <div
               className="
                 pointer-events-none
                 absolute
                 inset-0
-                bg-black/15
+                bg-black/20
+              "
+            />
+
+            {/* ==================================================
+                ORIGINAL PHOTO — NEVER CROPPED
+                ==================================================
+
+                IMPORTANT:
+
+                object-contain = entire image remains visible.
+
+                No scale animation here because scaling the
+                foreground image could push its edges outside
+                the viewport.
+
+                ================================================== */}
+
+            <motion.div
+              className="
+                absolute
+                inset-0
+                flex
+                items-center
+                justify-center
+              "
+            >
+
+              <motion.img
+                src={photos[currentImage]}
+                alt={`Seeju memory ${currentImage + 1}`}
+                className="
+                  block
+                  max-h-full
+                  max-w-full
+                  h-auto
+                  w-auto
+                  object-contain
+                "
+                initial={{
+                  opacity: 0,
+                  scale: 1,
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                }}
+                transition={{
+                  opacity: {
+                    duration: 1.2,
+                  },
+                  scale: {
+                    duration: 10,
+                    ease: "linear",
+                  },
+                }}
+              />
+
+            </motion.div>
+
+            {/* ==================================================
+                CINEMATIC DARK OVERLAY
+                ================================================== */}
+
+            <div
+              className="
+                pointer-events-none
+                absolute
+                inset-0
+                z-20
+                bg-black/08
               "
             />
 
             {/* ==================================================
                 TOP + BOTTOM VIGNETTE
-            ================================================== */}
+                ================================================== */}
 
             <div
               className="
                 pointer-events-none
                 absolute
                 inset-0
-                bg-[linear-gradient(to_bottom,rgba(0,0,0,0.55),transparent_28%,transparent_62%,rgba(0,0,0,0.72))]
+                z-20
+                bg-[linear-gradient(to_bottom,rgba(0,0,0,0.45),transparent_28%,transparent_62%,rgba(0,0,0,0.65))]
               "
             />
 
             {/* ==================================================
                 CENTER VIGNETTE
-            ================================================== */}
+                ================================================== */}
 
             <div
               className="
                 pointer-events-none
                 absolute
                 inset-0
-                bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.5)_100%)]
+                z-20
+                bg-[radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.42)_100%)]
               "
             />
 
             {/* ==================================================
                 PHOTO NUMBER
-            ================================================== */}
+                ================================================== */}
 
             <motion.div
               initial={{
@@ -803,7 +848,7 @@ export default function LifeJourney({ onComplete }) {
 
             {/* ==================================================
                 CINEMATIC QUOTE
-            ================================================== */}
+                ================================================== */}
 
             <motion.div
               key={`quote-${currentImage}`}
@@ -846,8 +891,6 @@ export default function LifeJourney({ onComplete }) {
                 "
               >
 
-                {/* TINY LINE */}
-
                 <motion.div
                   initial={{
                     width: 0,
@@ -883,7 +926,7 @@ export default function LifeJourney({ onComplete }) {
 
             {/* ==================================================
                 SMALL HEART
-            ================================================== */}
+                ================================================== */}
 
             <motion.div
               initial={{
@@ -913,7 +956,7 @@ export default function LifeJourney({ onComplete }) {
 
             {/* ==================================================
                 PROGRESS BAR
-            ================================================== */}
+                ================================================== */}
 
             <div
               className="
@@ -936,7 +979,7 @@ export default function LifeJourney({ onComplete }) {
                   width: "100%",
                 }}
                 transition={{
-                  duration: 6,
+                  duration: 10,
                   ease: "linear",
                 }}
                 className="h-full bg-white/70"
@@ -949,7 +992,7 @@ export default function LifeJourney({ onComplete }) {
 
         {/* ====================================================
             FINAL IMAGE
-        ==================================================== */}
+            ==================================================== */}
 
         {phase === "final" && (
           <motion.div
@@ -975,49 +1018,111 @@ export default function LifeJourney({ onComplete }) {
             "
           >
 
-            {/* FINAL IMAGE */}
+            {/* ==================================================
+                FINAL BLURRED BACKGROUND
+                ================================================== */}
 
             <motion.img
               src={seeju15}
-              alt="Seeju"
+              alt=""
               className="
+                pointer-events-none
                 absolute
                 inset-0
                 h-full
                 w-full
                 object-cover
-              "
-              initial={{
-                scale: 1.08,
-              }}
-              animate={{
-                scale: 1,
-              }}
-              transition={{
-                duration: 8,
-                ease: "easeOut",
-              }}
-            />
-
-            {/* DARK OVERLAY */}
-
-            <div
-              className="
-                absolute
-                inset-0
-                bg-black/35
+                scale-110
+                blur-[35px]
+                opacity-50
               "
             />
 
             <div
               className="
+                pointer-events-none
                 absolute
                 inset-0
-                bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.78)_100%)]
+                bg-black/20
               "
             />
 
-            {/* FINAL MESSAGE */}
+            {/* ==================================================
+                FULL FINAL IMAGE — NEVER CROPPED
+                ================================================== */}
+
+            <div
+              className="
+                absolute
+                inset-0
+                z-10
+                flex
+                items-center
+                justify-center
+              "
+            >
+
+              <motion.img
+                src={seeju15}
+                alt="Seeju"
+                className="
+                  block
+                  max-h-full
+                  max-w-full
+                  h-auto
+                  w-auto
+                  object-contain
+                "
+                initial={{
+                  opacity: 0,
+                  scale: 1,
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                }}
+                transition={{
+                  opacity: {
+                    duration: 1.5,
+                  },
+                  scale: {
+                    duration: 8,
+                    ease: "easeOut",
+                  },
+                }}
+              />
+
+            </div>
+
+            {/* ==================================================
+                DARK OVERLAY
+                ================================================== */}
+
+            <div
+              className="
+                absolute
+                inset-0
+                z-20
+                bg-black/20
+              "
+            />
+
+            {/* ==================================================
+                FINAL VIGNETTE
+                ================================================== */}
+
+            <div
+              className="
+                absolute
+                inset-0
+                z-20
+                bg-[radial-gradient(circle_at_center,transparent_20%,rgba(0,0,0,0.68)_100%)]
+              "
+            />
+
+            {/* ==================================================
+                FINAL MESSAGE
+                ================================================== */}
 
             <div
               className="
@@ -1129,7 +1234,11 @@ export default function LifeJourney({ onComplete }) {
                     delay: 5.5,
                     duration: 1,
                   }}
-                  className="mt-8 text-xl text-white/60"
+                  className="
+                    mt-8
+                    text-xl
+                    text-white/60
+                  "
                 >
                   ♥
                 </motion.div>
@@ -1143,7 +1252,7 @@ export default function LifeJourney({ onComplete }) {
 
         {/* ====================================================
             FADE
-        ==================================================== */}
+            ==================================================== */}
 
         {phase === "fade" && (
           <motion.div

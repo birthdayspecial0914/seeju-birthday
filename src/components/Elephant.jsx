@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import hathivideo from "../assets/hathi1.mp4";
-import BirthdayCalendar from "./BirthdayCalendar";
+import hathivideo from "../assets/seejukahathi1.mp4";
 
 export default function Elephant({ onComplete }) {
   const videoRef = useRef(null);
@@ -11,28 +10,33 @@ export default function Elephant({ onComplete }) {
   const [heardText, setHeardText] = useState("");
   const [error, setError] = useState("");
 
-  // ------------------------------------------------------------
+  // ============================================================
   // CLEAN UP MICROPHONE / SPEECH RECOGNITION
-  // ------------------------------------------------------------
+  // ============================================================
 
   useEffect(() => {
     return () => {
       if (recognitionRef.current) {
-        recognitionRef.current.stop();
+        try {
+          recognitionRef.current.stop();
+        } catch (error) {
+          console.log("Recognition cleanup:", error);
+        }
       }
     };
   }, []);
 
-  // ------------------------------------------------------------
+  // ============================================================
   // START MICROPHONE
-  // ------------------------------------------------------------
+  // ============================================================
 
   const startListening = () => {
     setError("");
     setHeardText("");
 
     const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition;
 
     if (!SpeechRecognition) {
       setError(
@@ -58,7 +62,11 @@ export default function Elephant({ onComplete }) {
     recognition.onresult = (event) => {
       let transcript = "";
 
-      for (let i = event.resultIndex; i < event.results.length; i++) {
+      for (
+        let i = event.resultIndex;
+        i < event.results.length;
+        i++
+      ) {
         transcript += event.results[i][0].transcript;
       }
 
@@ -71,9 +79,9 @@ export default function Elephant({ onComplete }) {
         .replace(/[.,!?]/g, "")
         .trim();
 
-      // --------------------------------------------------------
+      // ========================================================
       // ACCEPT DIFFERENT WAYS SHE MIGHT SAY IT
-      // --------------------------------------------------------
+      // ========================================================
 
       const birthdayPhrases = [
         "happy birthday",
@@ -91,13 +99,17 @@ export default function Elephant({ onComplete }) {
         (normalized.includes("happy") &&
           normalized.includes("birthday"));
 
+      // ========================================================
+      // SUCCESS
+      // ========================================================
+
       if (saidHappyBirthday) {
         recognition.stop();
 
         setListening(false);
         setStage("success");
 
-        // Small emotional pause before video
+        // Small emotional pause before elephant video
         setTimeout(() => {
           setStage("video");
         }, 1800);
@@ -105,7 +117,10 @@ export default function Elephant({ onComplete }) {
     };
 
     recognition.onerror = (event) => {
-      console.log("Speech recognition error:", event.error);
+      console.log(
+        "Speech recognition error:",
+        event.error
+      );
 
       setListening(false);
 
@@ -115,10 +130,12 @@ export default function Elephant({ onComplete }) {
         );
       } else if (event.error === "no-speech") {
         setError(
-          "I didn't hear you. Try saying “Happy Birthday” ❤️"
+          'I didn\'t hear you. Try saying "Happy Birthday" ❤️'
         );
       } else {
-        setError("Something went wrong. Please try again.");
+        setError(
+          "Something went wrong. Please try again."
+        );
       }
     };
 
@@ -126,12 +143,16 @@ export default function Elephant({ onComplete }) {
       setListening(false);
     };
 
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (error) {
+      console.log("Could not start recognition:", error);
+    }
   };
 
-  // ------------------------------------------------------------
-  // PLAY VIDEO WHEN STAGE CHANGES TO VIDEO
-  // ------------------------------------------------------------
+  // ============================================================
+  // PLAY ELEPHANT VIDEO
+  // ============================================================
 
   useEffect(() => {
     if (stage !== "video") return;
@@ -147,27 +168,34 @@ export default function Elephant({ onComplete }) {
     });
   }, [stage]);
 
-  // ------------------------------------------------------------
-  // VIDEO FINISHED
-  // ------------------------------------------------------------
+  // ============================================================
+  // ELEPHANT VIDEO FINISHED
+  //
+  // IMPORTANT:
+  // We DON'T show the calendar anymore.
+  //
+  // App.jsx will receive onComplete()
+  // and move to FinalSurprise.
+  // ============================================================
 
   const handleVideoEnd = () => {
-    // IMPORTANT:
-    // Do NOT call onComplete here.
-    // We want the calendar to appear after the video.
-    setStage("calendar");
+    if (onComplete) {
+      onComplete();
+    }
   };
 
-  // ------------------------------------------------------------
+  // ============================================================
   // WELCOME SCREEN
-  // ------------------------------------------------------------
+  // ============================================================
 
   if (stage === "welcome") {
     return (
       <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-black px-6 text-white">
+
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06),transparent_65%)]" />
 
         <div className="relative z-10 w-full max-w-2xl text-center">
+
           <div className="mb-8 text-5xl">
             🐘
           </div>
@@ -196,22 +224,26 @@ export default function Elephant({ onComplete }) {
           <p className="mt-5 text-xs text-white/25">
             You'll need to use your microphone
           </p>
+
         </div>
       </section>
     );
   }
 
-  // ------------------------------------------------------------
+  // ============================================================
   // LISTENING SCREEN
-  // ------------------------------------------------------------
+  // ============================================================
 
   if (stage === "listening") {
     return (
       <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-black px-6 text-white">
+
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.07),transparent_60%)]" />
 
         <div className="relative z-10 w-full max-w-2xl text-center">
+
           <div className="relative mx-auto mb-10 flex h-28 w-28 items-center justify-center">
+
             <div className="absolute inset-0 animate-ping rounded-full border border-white/10" />
 
             <div className="absolute inset-3 rounded-full border border-white/15" />
@@ -219,6 +251,7 @@ export default function Elephant({ onComplete }) {
             <div className="text-4xl">
               🎙️
             </div>
+
           </div>
 
           <p className="text-xs uppercase tracking-[0.5em] text-white/35">
@@ -251,21 +284,24 @@ export default function Elephant({ onComplete }) {
               {error}
             </p>
           )}
+
         </div>
       </section>
     );
   }
 
-  // ------------------------------------------------------------
+  // ============================================================
   // SUCCESS SCREEN
-  // ------------------------------------------------------------
+  // ============================================================
 
   if (stage === "success") {
     return (
       <section className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-black px-6 text-white">
+
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_60%)]" />
 
         <div className="relative z-10 text-center">
+
           <div className="mb-8 text-5xl">
             ❤️
           </div>
@@ -277,19 +313,22 @@ export default function Elephant({ onComplete }) {
           <p className="mt-5 font-serif text-lg italic text-white/50 sm:text-xl">
             Your little friend is coming. 🐘
           </p>
+
         </div>
       </section>
     );
   }
 
-  // ------------------------------------------------------------
-  // VIDEO SCREEN
-  // ------------------------------------------------------------
+  // ============================================================
+  // ELEPHANT VIDEO
+  // ============================================================
 
   if (stage === "video") {
     return (
       <section className="relative min-h-screen w-full overflow-hidden bg-black text-white">
+
         <div className="absolute inset-0 flex items-center justify-center bg-black">
+
           <video
             ref={videoRef}
             src={hathivideo}
@@ -301,25 +340,21 @@ export default function Elephant({ onComplete }) {
               videoRef.current?.play();
             }}
           />
+
         </div>
 
         {error && (
           <div className="absolute bottom-8 left-1/2 z-50 -translate-x-1/2 text-center">
+
             <p className="rounded-full bg-black/70 px-5 py-3 text-sm text-white/70 backdrop-blur">
               {error}
             </p>
+
           </div>
         )}
+
       </section>
     );
-  }
-
-  // ------------------------------------------------------------
-  // SEPTEMBER CALENDAR
-  // ------------------------------------------------------------
-
-  if (stage === "calendar") {
-    return <BirthdayCalendar onComplete={onComplete} />;
   }
 
   return null;
